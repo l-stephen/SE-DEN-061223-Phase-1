@@ -104,6 +104,37 @@ const crashCourse(){
 opening(crashCourse, 'Hank Green')
 
 ```
+## Scope
+There are three different types of scope in Javascript, Block Scope, Function Scope, and Global Scope
+```
+//Block scope refers to the visibility and accessibility of variables inside a block of code, usually enclosed in curly brackets '{}'
+//This means that variables are only accessible within the block of code that they are defined in
+
+function greeting() {
+    if(true){
+        let name = "Stephen"
+        console.log("Hello" + name)
+    }
+    console.log(name)
+}
+
+//Function scope refers to the visibility and accessibility of variables within a function, this means variables
+created in a function are only accessible within the function.
+function greeting() {
+    let name = "Stephen"
+    console.log("Hello" + name)
+}
+console.log(name)
+
+//Global scope refers to the visibility and accessibility of variables throughout the entire program
+
+let name = "Stephen"
+function greet(){
+    console.log("Hello" + name)
+}
+
+```
+
 
 
 ## Deliverables 
