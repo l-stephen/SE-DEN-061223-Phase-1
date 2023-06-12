@@ -73,14 +73,50 @@ const inventory = [
 
 
 //* Declaration a function. 
-// function helloWorld(){
-//     console.log('hello world!')
-// }
+function helloWorld(){
+    console.log('hello world!')
+}
+helloWorld()
 
 
 //* Declaration a function with a parameter and return
-//* In this example I created one called priceFormatter that takes a price and formats it to currency.
+function squareNum(num1, num2){
+    return num1*num2;
+}
+console.log(squareNum(2,2))
 
+function addNum(num1,num2){
+    return num1 + num2;
+}
+console.log(addNum(1,2))
+
+//Declare an arrow function
+const favFood = food => `My favorite food is ${food}`
+const favFood2 = food => (
+    `My favorite food is ${food}`
+)
+console.log(favFood("pizza"))
+console.log(favFood2("fries"))
+
+//callback function example
+function greet(name, aFunction){
+    console.log("Hello World")
+    aFunction(name)
+}
+function sayName(name){
+    console.log('Hello ' + name)
+}
+greet("Stephen", sayName)
+
+function greeting() {
+    if(true){
+        let name = "Stephen"
+        console.log("Hello" + name)
+    }
+    console.log(name)
+}
+
+//Deliverables
 //* Call the function above the Declaration to demo Hoisting
 // priceFormatter(inventory[0].price)
 function priceFormatter(book){
@@ -90,7 +126,7 @@ function priceFormatter(book){
 }
 
 //* Call the function and pass it an argument
-priceFormatter(inventory[0])
+console.log(priceFormatter(inventory[0]))
 
 
 
@@ -100,7 +136,7 @@ const titleAndAuthor = function(book){
     return `Title: ${book.title} by ${book.author}`
 }
 
-titleAndAuthor(inventory[0])
+console.log(titleAndAuthor(inventory[0]))
 
 //Arrow functions 
 
@@ -110,13 +146,11 @@ titleAndAuthor(inventory[0])
 // }
 //* Refactor 
 const printAdd = book => `${book.title} by ${book.author} is on sale!`
-printAdd(inventory[0])
+console.log(printAdd(inventory[0]))
 //* Create an arrow function with two parameters
 const discountPrice = (discount, book) => Math.floor(book.price/discount)
 
-discountPrice(2, inventory[0])
-
-
+console.log(discountPrice(2, inventory[0]))
 //* Demo scope 
 //Global
 const newTitle = 'The JavaScript Cookbook'
@@ -153,11 +187,39 @@ function mapOverArray(bookArray, cb){
     return newArray
 }
 
-console.log(imapOverArray(inventory, (book) => book.title))
+console.log(mapOverArray(inventory, (book) => book.title))
 console.log(mapOverArray(inventory, (book) => book.author))
 
 console.log(mapOverArray(inventory, titleAndAuthor))
 console.log(mapOverArray(inventory, priceFormatter))
+
+//Demo .map is a callback function
+let arr = [3,4,5,6,7,8]
+for(let i =0; i<arr.length; i++){
+    arr[i] = arr[i] * 3
+}
+console.log(arr)
+
+let mappedArray = arr.map((num)=> {
+    return num*4
+})
+console.log(mappedArray)
+
+let users = [
+    {
+        firstName:"Stephen", lastName: "Lambert"
+    },
+    {
+        firstName:"Sam", lastName: "Waters"
+    },
+    {
+        firstName:"David", lastName: "Doan"
+    }
+]
+let fullnames = users.map((names)=>{
+    return `${names.firstName} ${names.lastName}`
+})
+console.log(fullnames)
 
 
 
