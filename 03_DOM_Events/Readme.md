@@ -60,7 +60,3 @@ form.addEventListener('submit',(e)=> {
     - Call renderBookCard and pass it the new book object.
 - Demo DOMcontentLoaded
     - Add a DOMcontentLoaded eventListener to the document and wrap the code within the callback function
-- Bonus
-	- Create a new store object with the same properties as BookStore.
-	- Add a button that toggles the store information to a different store.
-	- Add eventListener for a click that toggles the store info in the header and footer to the new store object.
