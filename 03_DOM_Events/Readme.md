@@ -56,7 +56,7 @@ form.addEventListener('submit',(e)=> {
     - Pass the eventListener a callback that handles the form.
     - The callback takes the event as a parameter.
     - It should prevent the form's default behavior.
-    - It should build a book object useing the event object through the name attribute (e.target.title.value),  the id attribute (note the ids are in kabab case so you’ll need to select the id with bracket notation (e.target[form-title].value) or index of the input (e.target[0].value)
+    - It should build a book object using the event object through the name attribute (e.target.title.value),  the id attribute (note the ids are in kabab case so you’ll need to select the id with bracket notation (e.target[form-title].value) or index of the input (e.target[0].value)
     - Call renderBookCard and pass it the new book object.
 - Demo DOMcontentLoaded
     - Add a DOMcontentLoaded eventListener to the document and wrap the code within the callback function
