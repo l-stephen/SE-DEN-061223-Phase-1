@@ -99,4 +99,20 @@ function renderFooter(){
 
 renderFooter()
 
+//* 1. use a forEach to iterate over BookStore inventory.
+//  2. Pass the forEach an anonymous callback that takes the inventory data and creates an li, with an h3 tag, 2 p tags, and image tag.
+// 3. Add the cardData content to the tags.
+// 4. Append li to the DOM through the ul with the id of book-list
+
+
+
+
+//* Refactor to make the anonymous callback its own function so it can be reused later. 
+
+
+
+//Organize function calls
+
+
+
 
