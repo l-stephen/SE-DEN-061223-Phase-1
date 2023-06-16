@@ -6,16 +6,16 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(res => res.json())
         }
 //* Create POST request that dynamically takes a url and body
-        function createResources(url, body){
-            return fetch(url,{
-                method: 'POST', 
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(body),
-            })
-            .then(res => res.json())
-        }
+        // function createResources(url, body){
+        //     return fetch(url,{
+        //         method: 'POST', 
+        //         headers: {
+        //           'Content-Type': 'application/json',
+        //         },
+        //         body: JSON.stringify(body),
+        //     })
+        //     .then(res => res.json())
+        // }
 
     // Rendering functions
         // Renders Header
@@ -29,12 +29,37 @@ document.addEventListener('DOMContentLoaded', () => {
             footerDivs[1].textContent = store.address
             footerDivs[2].textContent = store.hours
         }
+
+        function handleDelete(cardData, event){
+            event.preventDefault()
+            fetch(`http://localhost:3000/books/${cardData.id}`, {
+                    method: "DELETE",
+                    headers: {"Content-Type": "application/json"},
+                })
+                .then(res => res.json())
+                .then(event.target.parentElement.remove())
+        }
+
+        function handleUpdate(cardData, event){
+            const i = {
+                inventory: event.target.value
+            }
+            event.preventDefault()
+            fetch(`http://localhost:3000/books/${cardData.id}`, {
+                method: "PATCH",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(i)
+            })
+            .then(res => res.json())
+            .catch(e => console.log(e))
+        }
     
         function renderBookCard(cardData) {
             const li = document.createElement('li')
             const h3 = document.createElement('h3')
             const pAuthor = document.createElement('p')
             const pPrice = document.createElement('p')
+            const pInventory = document.createElement('input')
             const img = document.createElement('img')
             const btn = document.createElement('button')
     
@@ -42,14 +67,16 @@ document.addEventListener('DOMContentLoaded', () => {
             pAuthor.textContent = cardData.author
             pPrice.textContent = `$${cardData.price}`
             btn.textContent = 'Delete'
+            pInventory.type = 'number'
+            pInventory.value = cardData.inventory
     
             img.src = cardData.imageUrl
             li.className = 'list-li'
     
             //Event Listeners 
-            btn.addEventListener('click',()=>li.remove())
-        
-            li.append(h3,pAuthor,pPrice,img,btn)
+            btn.addEventListener('click',(e) => handleDelete(cardData, e))
+            pInventory.addEventListener('change', (e) => handleUpdate(cardData, e))
+            li.append(h3,pAuthor,pPrice,img,btn,pInventory)
             document.querySelector('#book-list').append(li)
         }
     
@@ -65,10 +92,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 inventory:e.target.inventory.value,
                 reviews:[]
             }
-        //* Call POST request. Change renderBookCard to render pessimistically 
-            createResources('http://localhost:3000/books', book)
+
+            fetch("http://localhost:3000/books", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(book),
+            })
+            .then(res => res.json())
             .then(renderBookCard)
-            .catch(e => console.error(e))
+            .catch(e => console.log(e))
+
+        // //* Call POST request. Change renderBookCard to render pessimistically 
+        //     createResources('http://localhost:3000/books', book)
+        //     .then(renderBookCard)
+        //     .catch(e => console.error(e))
 
         }
     
@@ -88,12 +125,3 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('#book-form').addEventListener('submit', handleForm)
     
 })
-
-/* 
-Second example if needed for POST:
-1. Create a store form in index.html
-2. Add submit eventListener to form
-3. Add new form handler that builds store
-4. Call POST request to add store 
- 
-*/
