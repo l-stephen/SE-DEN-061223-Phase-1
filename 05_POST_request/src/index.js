@@ -1,22 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
+
     // Fetch requests 
         // Function for making a GET request 
         function fetchResource(url){
             return fetch(url)
             .then(res => res.json())
         }
-//* Create POST request that dynamically takes a url and body
-        // function createResources(url, body){
-        //     return fetch(url,{
-        //         method: 'POST', 
-        //         headers: {
-        //           'Content-Type': 'application/json',
-        //         },
-        //         body: JSON.stringify(body),
-        //     })
-        //     .then(res => res.json())
-        // }
-
     // Rendering functions
         // Renders Header
         function renderHeader(store){
@@ -29,26 +18,28 @@ document.addEventListener('DOMContentLoaded', () => {
             footerDivs[1].textContent = store.address
             footerDivs[2].textContent = store.hours
         }
-
-        function handleDelete(cardData, event){
+    
+        function handleDelete(cardData,event){
             event.preventDefault()
             fetch(`http://localhost:3000/books/${cardData.id}`, {
-                    method: "DELETE",
-                    headers: {"Content-Type": "application/json"},
-                })
-                .then(res => res.json())
-                .then(event.target.parentElement.remove())
+                method: "DELETE",
+                headers: {"Content-Type": "application/json"},
+            })
+            .then(res => res.json())
+            .then(event.target.parentElement.remove())
         }
-
+    
         function handleUpdate(cardData, event){
-            const i = {
+            event.preventDefault()
+    
+            const obj = {
                 inventory: event.target.value
             }
-            event.preventDefault()
+    
             fetch(`http://localhost:3000/books/${cardData.id}`, {
                 method: "PATCH",
                 headers: {"Content-Type": "application/json"},
-                body: JSON.stringify(i)
+                body: JSON.stringify(obj)
             })
             .then(res => res.json())
             .catch(e => console.log(e))
@@ -59,15 +50,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const h3 = document.createElement('h3')
             const pAuthor = document.createElement('p')
             const pPrice = document.createElement('p')
-            const pInventory = document.createElement('input')
             const img = document.createElement('img')
+            const pInventory = document.createElement('input')
             const btn = document.createElement('button')
     
             h3.textContent = cardData.title
             pAuthor.textContent = cardData.author
             pPrice.textContent = `$${cardData.price}`
             btn.textContent = 'Delete'
-            pInventory.type = 'number'
+            pInventory.type = "number"
             pInventory.value = cardData.inventory
     
             img.src = cardData.imageUrl
@@ -75,9 +66,31 @@ document.addEventListener('DOMContentLoaded', () => {
     
             //Event Listeners 
             btn.addEventListener('click',(e) => handleDelete(cardData, e))
-            pInventory.addEventListener('change', (e) => handleUpdate(cardData, e))
-            li.append(h3,pAuthor,pPrice,img,btn,pInventory)
+    
+            // btn.addEventListener('click',(e) => {
+            //     e.preventDefault()
+            //     fetch(`http://localhost:3000/books/${cardData.id}`, {
+            //     method: "DELETE",
+            //     headers: {"Content-Type": "application/json"},
+            // })
+            //     .then(res => res.json())
+            //     .then(event.target.parentElement.remove())
+            // })
+    
+            pInventory.addEventListener("change", (e) => handleUpdate(cardData, e))
+        
+            li.append(h3,pAuthor,pPrice,img,btn, pInventory)
             document.querySelector('#book-list').append(li)
+        }
+    
+        //refactor the post request to its own function
+        function createResource(url, body){
+            return fetch(url, {
+                method: "POST", 
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(body)
+            })
+            .then(res => res.json())
         }
     
     // Event Handlers
@@ -92,21 +105,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 inventory:e.target.inventory.value,
                 reviews:[]
             }
-
-            fetch("http://localhost:3000/books", {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify(book),
-            })
-            .then(res => res.json())
+    
+            // fetch("http://localhost:3000/books", {
+            //     method: "POST",
+            //     headers: {"Content-Type": "application/"},
+            //     body: JSON.stringify(book)
+            // })
+            // .then(res => res.json())
+            // //another way to send the returned response to renderBookCard
+            // // .then(data => renderBookCard(data))
+            // .then(renderBookCard)
+            // .catch(e => console.log(e))
+    
+            createResource("http://localhost:3000/books", book)
             .then(renderBookCard)
             .catch(e => console.log(e))
-
-        // //* Call POST request. Change renderBookCard to render pessimistically 
-        //     createResources('http://localhost:3000/books', book)
-        //     .then(renderBookCard)
-        //     .catch(e => console.error(e))
-
+    
         }
     
     
@@ -124,4 +138,4 @@ document.addEventListener('DOMContentLoaded', () => {
     
         document.querySelector('#book-form').addEventListener('submit', handleForm)
     
-})
+    })
