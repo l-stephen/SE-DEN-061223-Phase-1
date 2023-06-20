@@ -1,4 +1,4 @@
-console.log(apiKEY)
+import {apiKEY} from "./keys.js"
 // fetch('https://pokeapi.co/api/v2/pokemon/mewtwo/')
 // .then(res => res.json())
 // .then(data =>  {
