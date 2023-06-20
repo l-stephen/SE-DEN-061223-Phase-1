@@ -1,3 +1,13 @@
+// fetch("https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0")
+// .then(res => res.json())
+// .then(data => {
+//             // renderPokemon(data)
+//             // showDetails(data[0])
+//             console.log(data)
+//         })
+import {apiKEY} from "./keys.js"
+console.log(apiKEY)
+
 document.addEventListener('DOMContentLoaded', () => {
     // Fetch requests 
         // Function for making a GET request 
@@ -86,6 +96,28 @@ document.addEventListener('DOMContentLoaded', () => {
         function handleAPIQuery(e){
             e.preventDefault()
             const search = e.target.search.value
+            console.log(search)
+
+            fetch(`https://www.googleapis.com/books/v1/volumes?q=${search}&key=${apiKEY}`)
+            .then(res => res.json())
+            .then(books => {
+                console.log(books)
+                books.items.forEach((book) => {
+                    const div = document.createElement("div")
+                    const h3 = document.createElement("h3")
+                    const h4 = document.createElement("h4")
+                    const p = document.createElement("p")
+
+                    h3.textContent = book.volumeInfo.title
+                    p.textContent = book.volumeInfo.description
+                    h4.textContent = book.volumeInfo.authors
+                    div.append(h3, h4, p)
+
+                    document.querySelector('main').append(div)
+
+
+                })
+            })
                
         }
 
